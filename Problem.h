@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <functional>
 #include "Parameter.h"
 #include "Element.h"
 
@@ -10,7 +11,8 @@
 template <typename T>
 class Problem final {
 private:
-	using processptr = double(*)(Element<T> const&);
+	// using processptr = double(*)(Element<T> const&);
+	using processptr = std::function<double(Element<T> const&)>;
 	void initializeElements(int numElements);
 	double calculateFitnessSum() const;
 	Element<T>* selectParent(int);
