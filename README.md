@@ -31,7 +31,7 @@ int main() {
 	p.addParameter("height", 0.001, 1);
 
 	auto fitnessfunction = [&Smax,&T](Element<mytype> const& e)->double {
-		double S = 6*T/e["height"]/e["height"]/e["width"];
+		double S = 6*T/e["height"]/e["height"]/e["width"]; // S = T/Iy*y/2
 		if(S>Smax) {
 			return 0.0;
 		} else {
