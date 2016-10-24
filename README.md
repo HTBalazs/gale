@@ -16,7 +16,7 @@ Example:
 // g++ -std=c++11 GA_solver.cpp -o GA_solver.exe
 
 /* Example: 
-	Given the bending torque T and the maximum allowed stress "Smax" of a beam.
+	Given the bending torque "T" and the maximum allowed stress "Smax" of a beam.
 	Find the best rectangular beam cross-section with the smallest area using the width and height parameters.
 */
 
@@ -30,7 +30,7 @@ int main() {
 	p.addParameter("width", 0.001, 1);
 	p.addParameter("height", 0.001, 1);
 
-	auto fintessfunction = [&Smax,&T](Element<mytype> const& e) {
+	auto fitnessfunction = [&Smax,&T](Element<mytype> const& e) {
 		double S = 6*T/e["height"]/e["height"]/e["width"];
 		if(S>Smax) {
 			return 0.0;
@@ -39,7 +39,7 @@ int main() {
 		}
 	};
 
-	p.solve(fintessfunction, 1000, 100);	// (fitnessfnc, number of individuals, number of generations)
+	p.solve(fitnessfunction, 1000, 100);	// (fitnessfnc, number of individuals, number of generations)
 
 	std::cout << p << std::endl;
 
