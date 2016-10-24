@@ -53,6 +53,7 @@ Result:
 Problem:
 
   Parameters:
+
     Name:    width
     Minimum: 0.001
     Maximum: 1
@@ -62,6 +63,7 @@ Problem:
     Maximum: 1
 
   Best element:
+
       width: 0.00100033
       height: 0.548213
       Fitness:  1823.51
