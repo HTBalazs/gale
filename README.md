@@ -53,15 +53,15 @@ Result:
 Problem:
 
   Parameters:
-    Name:    x
-    Minimum: 0
+    Name:    width
+    Minimum: 0.001
     Maximum: 1
 
-    Name:    y
-    Minimum: 0
+    Name:    height
+    Minimum: 0.001
     Maximum: 1
 
   Best element:
-      x: 0.230399
-      y: 0.369629
-      Fitness:  1.24787e+09
+      width: 0.00100033
+      height: 0.548213
+      Fitness:  1823.51
