@@ -4,6 +4,10 @@ GALE is a flexible small Genetic Algorithm Engine.
 
 Example:
 
+
+```
+#!c++
+
 #include <iostream>
 #include <cmath>
 #include "Problem.h"
@@ -34,6 +38,8 @@ int main() {
 
 	return 0;
 }
+```
+
 
 Result:
 
