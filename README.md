@@ -47,8 +47,7 @@ int main() {
 }
 ```
 
-# 
-Result: #
+# Result: #
 
 Problem:
 
