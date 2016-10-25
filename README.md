@@ -2,7 +2,7 @@
 
 GALE is a small lightweight and flexible Genetic Algorithm Engine.
 
-Example:
+# Example: #
 
 
 ```
@@ -47,8 +47,8 @@ int main() {
 }
 ```
 
-
-Result:
+# 
+Result: #
 
 Problem:
 
