@@ -1,6 +1,6 @@
 # README #
 
-GALE is a small lightweight and flexible Genetic Algorithm Engine.
+GALE is a small lightweight and flexible Genetic ALgorithm Engine.
 
 # Example: #
 
