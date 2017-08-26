@@ -71,6 +71,7 @@ Element<T>* Problem<T>::selectParent(int S) {
 			return &it;
 		}
 	}
+	return &element[0];
 }
 
 template <typename T>

@@ -1,84 +1,57 @@
 #pragma once
+
 #include <vector>
 #include <string>
 #include "Parameter.h"
 
-#define random(min, max) (((float)(rand()%1000)/1000.0f)*((max)-(min))+(min))
+#define random(min, max) (((double)(rand()%1000)/1000.0f)*((max)-(min))+(min))
 
-template <typename T>
 class Element final {
-	struct Param {
-		std::string name_;
-		T value_;
-		Param() = default;
-		Param(std::string n, T v) : name_{n}, value_{v} {}
-	};
+	std::vector<std::shared_ptr<Generic_parameter>> parameter_;
+	double fitness_ = 0.0;
 public:
-	double fitness_;
-	std::vector<Param> p_;
-	Element() = delete;
-	Element(int size);
-	Element(std::vector<Parameter<T>> const&);
-	Element(Element<T> const&);
-	Element(Element<T>, Element<T>);
-	T operator[](std::string) const;
+	Element() {}
+	Element(Element const& e1, Element const& e2) {
+		size_t size = e1.parameter_.size();
+		for(int i=0; i<size; i++) {
+			this->parameter_.push_back(e1.parameter_[0]->cross(*e2.parameter_[0]));
+		}
+	}
+	template <typename T> T get(std::string s) const {
+		for(auto it : parameter_) {
+			std::shared_ptr<Parameter<T>> p = std::dynamic_pointer_cast<Parameter<T>>(it);
+			if(p->get_name() == s) {
+				return p->get_value();
+			}
+		}
+		std::cout << "No such parameter: " << s << std::endl;
+		return T{};
+	}
+	void add_parameter(Generic_parameter* param) {
+		parameter_.push_back(std::shared_ptr<Generic_parameter>{param});
+	}
+	std::shared_ptr<Generic_parameter> get_parameter(std::string const& name) {
+		for(auto const& it:parameter_) {
+			if(it->get_name()==name) {
+				return it;
+			}
+		}	
+		throw false;
+	}
+	friend std::ostream& operator<<(std::ostream& os, Element const& e);
 };
 
-template <typename T>
-std::ostream& operator<<(std::ostream& os, Element<T> const& e) {
-	for(auto it:e.p_)
-		os << "      " << it.name_ << ": " << it.value_ << std::endl;
-	os << "      Fitness:  " << e.fitness_ << std::endl; 
+std::ostream& operator<<(std::ostream& os, Element const& e) {
+	for(auto it:e.parameter_) {
+		it->print(os);
+	}
+	os << "    Fitness:  " << e.fitness_ << std::endl; 
 	return os;
 }
 
-template <typename T>
-Element<T> operator+(Element<T> const& parent1, Element<T> const& parent2) {
-	Element<T> child{parent1, parent2};
+Element operator+(Element const& parent1, Element const& parent2) {
+	Element child{parent1, parent2};
 	return child;
 }
 
-template <typename T>
-T Element<T>::operator[](std::string s) const {
-	for(auto it : p_) {
-		if(it.name_ == s) {
-			return it.value_;
-		}
-	}
-	std::cout << "No such parameter: " << s << std::endl;
-	return (T)0;
-}
 
-template <typename T>
-Element<T>::Element(int size) {
-	p_.reserve(size);
-	for(int i=0; i<size; i++) {
-		p_.push_back(Param{});
-	}
-}
-
-template <typename T>
-Element<T>::Element(std::vector<Parameter<T>> const& p) {
-	fitness_ = 0;
-	p_.reserve(p.size());
-	for(int i=0; i<p.size(); i++)
-		p_.push_back(Param{p[i].name_, T{random(p[i].min_, p[i].max_)}});
-}
-
-template <typename T>
-Element<T>::Element(Element<T> const& other) {
-	this->fitness_ = other.fitness_;
-	this->p_ = other.p_;
-}
-
-template <typename T>
-Element<T>::Element(Element<T> p1, Element<T> p2) {
-	int size = p1.p_.size();
-	fitness_ = 0;
-
-	for(int i=0; i<size; i++) {
-		double weight = random(0,1);
-		double value = weight*p1.p_[i].value_ + (1.0-weight)*p2.p_[i].value_;
-		p_.push_back(Param{p1.p_[i].name_, T{value}});
-	}
-}
